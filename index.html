@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lesson 3</title>
+  </head>
+  <body>
+    <script>
+      "use strict";
+
+      let numb = prompt("Введите число", "5");
+
+      let res = "";
+
+      for (let i = 0; i < numb; i++) {
+        let j = -1;
+        while (j < i) {
+          res += "*";
+          j++;
+        }
+        res += "\n";
+      }
+
+      console.log(res);
+    </script>
+  </body>
+</html>
