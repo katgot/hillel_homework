@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lesson 3</title>
+  </head>
+  <body>
+    <script>
+      "use strict";
+
+      let name = prompt("Ваше имя?", "Аноним");
+      let age = Number(prompt("Ваш возраст?"));
+      let alcohol = confirm("Алкоголь употребляем?");
+
+      if (alcohol) {
+        if (typeof age === "number" && !isNaN(age)) {
+          if (age < 18) {
+            alert(name + ", ты что?! Маме расскажу!");
+          } else if (age >= 18 && age <= 40) {
+            alert(name + ", только водку с пивом не мешай...");
+          } else {
+            alert(name + ", не злоупотребляйте.");
+          }
+        } else {
+          alert(name + ", введите число.");
+        }
+      } else {
+        alert(name + ", так держать!");
+      }
+    </script>
+  </body>
+</html>
