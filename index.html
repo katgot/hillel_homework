@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lesson_06</title>
+  </head>
+  <body>
+    <script>
+      "use strict";
+
+      // Задание 1 ***********************************************************************
+
+      let people = [
+        {
+          name: "Kate",
+          age: 1995,
+          gender: "female"
+        },
+        {
+          name: "Olga",
+          age: 1998,
+          gender: "female"
+        },
+        {
+          name: "Anna",
+          age: 1996,
+          gender: "female"
+        },
+        {
+          name: "Anton",
+          age: 1990,
+          gender: "male"
+        },
+        {
+          name: "Alex",
+          age: 1995,
+          gender: "male"
+        }
+      ];
+
+      function getAverageAge(students) {
+        let today = new Date();
+        let yearNow = today.getFullYear();
+
+        let average = 0;
+
+        for (let i = 0; i < students.length; i++) {
+          average += yearNow - students[i].age;
+        }
+        return average / students.length;
+      }
+
+      console.log(getAverageAge(people));
+
+      function getGender(students) {
+        let female = 0;
+        let male = 0;
+
+        for (let i = 0; i < students.length; i++) {
+          let thisGender = students[i].gender;
+
+          if (thisGender === "female") {
+            female++;
+          } else {
+            male++;
+          }
+        }
+        if (female > male) {
+          return "female";
+        } else {
+          return "male";
+        }
+      }
+
+      console.log(getGender(people));
+
+      // Задание 2 ***********************************************************************
+
+      let oldArr = [1, 2, 3, 4, 5, 6];
+      let newArr = [];
+
+      function clone(arr) {
+        for (let i = 0; i < arr.length; i++) {
+          newArr[i] = arr[i];
+        }
+        return newArr;
+      }
+
+      clone(oldArr);
+
+      newArr[0] = 42;
+
+      console.log(oldArr);
+      console.log(clone(newArr));
+
+      // Задание 3 ***********************************************************************
+
+      let numbers = [1, 2, 3, 4, 5, 6];
+
+      function filter(arr, check) {
+        let arrEven = [];
+        let j = 0;
+
+        for (let i = 0; i < arr.length; i++) {
+          if (check) {
+            if (check(arr[i])) {
+              arrEven[j] = arr[i];
+              j++;
+            }
+          }
+        }
+        return arrEven;
+      }
+
+      function isEven(x) {
+        if (x % 2 === 0) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+
+      console.log(filter(numbers, isEven));
+    </script>
+  </body>
+</html>
