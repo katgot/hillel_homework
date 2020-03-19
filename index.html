@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lesson_05</title>
+  </head>
+  <body>
+    <script>
+      "use strict";
+
+      function gettingAreaCircle(radius) {
+        return Math.PI * Math.pow(radius, 2);
+      }
+
+      function gettingLengthCircle(radius) {
+        return 2 * Math.PI * radius;
+      }
+
+      function gettingAverageNumb(a, b) {
+        return (a + b) / 2;
+      }
+      function gettingResultNumb(a, b, c) {
+        switch (c) {
+          case "+":
+            return a + b;
+            break;
+
+          case "-":
+            return a - b;
+            break;
+
+          case "*":
+            return a * b;
+            break;
+
+          case "/":
+            return a / b;
+            break;
+
+          default:
+            return "Введите + - * или /";
+        }
+      }
+
+      console.log(gettingAreaCircle(4));
+      console.log(gettingLengthCircle(12));
+      console.log(gettingAverageNumb(20, 2));
+      console.log(gettingResultNumb(20, 5, "+"));
+    </script>
+  </body>
+</html>
