@@ -36,6 +36,11 @@
           name: "Alex",
           age: 1995,
           gender: "male"
+        },
+        {
+          name: "Anton",
+          age: 1990,
+          gender: "male"
         }
       ];
 
@@ -68,8 +73,11 @@
         }
         if (female > male) {
           return "female";
-        } else {
+        }
+        if (female < male) {
           return "male";
+        } else {
+          return "Поровну";
         }
       }
 
