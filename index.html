@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lesson_07</title>
+  </head>
+  <body>
+    <script>
+      "use strict";
+
+      // Задание 1**************************************************************************************
+      // copy(target, origin) - копирует свойства из объекта origin в объект target и возвращает новый объект со всеми свойствами. В данном задании используйте for ... in для работы со св-ми объектов.
+
+      let origin = {
+        color: "blue",
+        height: 50,
+        width: 100
+      };
+
+      function copyObj(obj) {
+        let target = {};
+        for (let key in obj) {
+          target[key] = obj[key];
+        }
+        return target;
+      }
+
+      console.log(copyObj(origin));
+
+      // Задание 2**************************************************************************************
+      // getNumberOfEven(n) - получить количество четных цифр в числе
+      // getNumberOfEven(223344) // 4
+      // getNumberOfEven(111) // 0
+
+      let numb = 2461111118;
+
+      function getNumberOfEven(n) {
+        n = "" + n;
+        let count = 0;
+        for (let symbol of n) {
+          symbol = +symbol;
+          if (symbol % 2 === 0) {
+            count++;
+          }
+        }
+        return count;
+      }
+
+      console.log(getNumberOfEven(numb));
+
+      // Задание 3**************************************************************************************
+      // sumAll(...), которая возвращает сумму всех своих аргументов.
+      // sum() // 0
+      // sum(1) // 1
+      // sum(1, 2) // 3
+
+      function sumAll() {
+        // let args = Array.from(arguments);
+        let args = [];
+        for (let i = 0; i < arguments.length; i++) {
+          args[i] = arguments[i];
+        }
+
+        let sum = 0;
+        for (let i = 0; i < args.length; i++) {
+          sum += args[i];
+        }
+        return sum;
+      }
+
+      console.log(sumAll(10, 5, 10));
+
+      // Задание 4**************************************************************************************
+      // mathMinMax(...) - принимает любое кол-во аргументов и возвращает массив, в котором только два числа минимальное\максимальное из переданных в качестве аргументов.
+      // mathMinMax(1, 2, 3, 4, 5) // [1, 5]
+      // mathMinMax(3, 4, 8, 5, 7, 2, 3, 0) // [0, 8]
+
+      function mathMinMax() {
+        // let args = Array.from(arguments);
+        let numbers = [];
+        for (let i = 0; i < arguments.length; i++) {
+          numbers[i] = arguments[i];
+        }
+
+        let min = numbers[0];
+        let max = numbers[0];
+
+        for (let i = 0; i < numbers.length; i++) {
+          if (numbers[i] < min) {
+            min = numbers[i];
+          }
+          if (numbers[i] > max) {
+            max = numbers[i];
+          }
+        }
+        let res = [min, max];
+        return res;
+      }
+
+      console.log(mathMinMax(10, 5, 1, 999, 14, -6));
+    </script>
+  </body>
+</html>
