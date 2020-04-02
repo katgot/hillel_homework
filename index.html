@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lesson_08</title>
+  </head>
+  <body>
+    <script>
+      "use strict";
+
+      // 1. Дан массив:
+      // const arr = [-246, 753, -468, 475, -683, 476, -583, 746, -581];
+
+      // 1. Найти сумму элементов массива.
+      // 2. Получить массив, который состоит из отрицательных элементов из исходного массива.
+      // 3. Отсортировать массив по возрастанию.
+      // 4. Получить массив из тех же элементов, только они должны быть в обратном порядке.
+      // 5. Получить массив из элементов деленных на два (например, если был массив [4, 3, 8] то получим [2,1.5,4]).
+
+      const arr = [-246, 753, -468, 475, -683, 476, -583, 746, -581];
+
+      let sum = arr.reduce(function(previousValue, currentValue, index, array) {
+        return previousValue + currentValue;
+      });
+      console.log(sum);
+
+      let negativeNumb = arr
+        .map(function(item, index, array) {
+          if (item < 0) {
+            return item;
+          }
+        })
+        .filter(function(x) {
+          return x !== undefined && x !== null;
+        });
+      console.log(negativeNumb);
+
+      arr.sort(function(a, b) {
+        return a - b;
+      });
+      console.log(arr);
+
+      let reversArr = arr.slice().reverse();
+      console.log(reversArr);
+
+      let halfNumbArr = arr.slice();
+      halfNumbArr.forEach(function(item, index, array) {
+        halfNumbArr[index] = item / 2;
+      });
+      console.log(halfNumbArr);
+
+      // 2. Дана строка:
+      // const str = "12, 42, 63, 56, 122, 17, 117, 25, 645, 722, 964";
+      // 1. Создать массив чисел из строки.
+      // 2. Cоздать другой массив, состоящий только из четных цифр предыдущего массива.
+
+      const str = "12, 42, 63, 56, 122, 17, 117, 25, 645, 722, 964";
+
+      let arrNumbers = str.split(", ").map(Number);
+
+      let evenNumb = arrNumbers.slice().filter(function(x) {
+        return x % 2 === 0;
+      });
+      console.log(arrNumbers);
+      console.log(evenNumb);
+
+      // 3. Напишите ф-ию, которая принимает массив массивов (каждый вложенный массив - это пара ключ/значение) и возвращает объект.
+      // Пример:
+      // const scheme = [
+      //  ['name', 'Vasya'],
+      //  ['age', 25],
+      //  ['score', 95]
+      // ];
+
+      // makeObjectFromScheme(arr) // ф-ия вернет объект
+      // {
+      //  name: 'Vasya',
+      //  age: 25,
+      //  score: 95
+      // }
+
+      const scheme = [
+        ["name", "Vasya"],
+        ["age", 25],
+        ["score", 95]
+      ];
+
+      function makeObjectFromScheme(arr) {
+        let obj = {};
+        arr.forEach(function(item, index, array) {
+          let key = item[0];
+          let name = item[1];
+          obj[item[0]] = item[1];
+        });
+        return obj;
+      }
+
+      console.log(makeObjectFromScheme(scheme));
+
+      //   4. Напишите ф-ию, которая принимает объект и возвращает массив массивов (каждый вложенный массив - это пара ключ/значение). Т. е. делает обратное предыдущей.
+
+      const objStudent = {
+        name: "Petya",
+        age: 25,
+        score: 95
+      };
+
+      function makeArrFromObjec(obj) {
+        let arr = [];
+
+        for (let key in obj) {
+          let item = [];
+          item[0] = key;
+          item[1] = obj[key];
+          arr.push(item);
+        }
+        return arr;
+      }
+
+      console.log(makeArrFromObjec(objStudent));
+    </script>
+  </body>
+</html>
