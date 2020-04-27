@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lesson_09</title>
+  </head>
+  <body>
+    <script>
+      "use strict";
+
+      //   1. Напишите ф-ию, принимающую двумерный массив, в кот каждый элемент содержит пару ключ: значение и набор опций для поля. Эта ф-ия должна вернуть объект.
+
+      let keys = [
+        // ["key", "value", "enumerable", "writable", "configurable"],
+        ["value", 42, true, false, false],
+        ["value2", true, false, false, false],
+        ["value3", "Hello", true, true, true],
+      ];
+
+      function createObject(arr) {
+        let obj = {};
+
+        arr.forEach(function (item, index, array) {
+          Object.defineProperty(obj, item[0], {
+            value: item[1],
+            enumerable: item[2],
+            writable: item[3],
+            configurable: item[4],
+          });
+          console.log(obj);
+        });
+        // console.log(Object.keys(obj));
+        return obj;
+      }
+
+      createObject(keys);
+
+      // 2. Напишите ф-ию, принимающую и сравнивающую два объекта. Если объекты содержат одинаковые ключи и значения, то ф-ия возвращает true, если нет - false.
+
+      let first = {
+        value: 42,
+        value2: true,
+        // value3: true,
+      };
+
+      let second = {
+        value2: true,
+        value: 42,
+        // value3: true,
+      };
+
+      function compareObj(obj1, obj2) {
+        let keys1 = Object.keys(obj1);
+        let keys2 = Object.keys(obj2);
+        let value1 = Object.values(obj1);
+        let value2 = Object.values(obj2);
+
+        let count = 0;
+
+        for (let i = 0; i < keys1.length; i++) {
+          if (keys1.length === keys2.length) {
+            // проверяю одинаковое ли количество ключей в объектах
+            if (keys1[i] in obj2) {
+              // проверяю одинаковые ли ключи
+              let pos = keys2.indexOf(keys1[i]); // нахожу индекс такого же ключа в другом объекте
+              if (value2[pos] === value1[i]) {
+                // проверяю одинаковые ли значения
+                count++;
+              } else {
+                return false;
+              }
+            } else {
+              return false;
+            }
+          } else {
+            return false;
+          }
+        }
+
+        if (count === keys1.length) {
+          // проверяю все ли ключи имели одинаковое значение
+          return true;
+        }
+      }
+
+      console.log(compareObj(first, second));
+    </script>
+  </body>
+</html>
