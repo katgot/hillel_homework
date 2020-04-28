@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lesson_10</title>
+  </head>
+  <body>
+
+    <script>
+      "use strict";
+
+      //   1. Написать функцию generateList(array) принимает массив из чисел и массивов чисел, например [1,2,3] нужно сгенерировать список из елементов,
+      // [1,2, [1.1,1.2,1.3] ,3] * а если в массиве встречается массив то делать вложенный список, для проверки на массив используйте Array.isArray()
+
+      let array = [1, 2, 3, 4, ["4.1", "4.2", "4.3"], 5];
+
+      let listItems = "";
+
+      function generateList(arr) {
+        arr.forEach(function (el) {
+          if (Array.isArray(el)) {
+            let nestedListItems = "";
+            el.forEach(function (e) {
+              nestedListItems += `<li>${e}</li>`;
+            });
+            let $nestedList = document.createElement("ul");
+            $nestedList.innerHTML = nestedListItems;
+            listItems += `<li>${$nestedList.outerHTML}</li>`;
+          } else {
+            listItems += `<li>${el}</li>`;
+          }
+        });
+        let $list = document.createElement("ul");
+
+        $list.innerHTML = listItems;
+
+        document.body.append($list);
+      }
+
+      generateList(array);
+
+      //   2. Вывести таблицу 10 × 10, заполненную числами от 1 до 100
+
+      let content = "";
+
+      for (let i = 0; i < 100; i) {
+          let line = "";
+          
+          for (let j = 0; j < 10; j++) {
+            line += `<td>${++i}</td>`;
+          }
+          content += `<tr>${line}</tr>`;
+      }
+
+      let $table = document.createElement("table");
+      $table.border = "1";
+      $table.cellPadding = "7";
+      $table.innerHTML = content;
+      document.body.append($table);
+
+    //   console.dir($table);
+
+    </script>
+  </body>
+</html>
