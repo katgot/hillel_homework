@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lesson_11</title>
+  </head>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    .container {
+      display: flex;
+      margin-bottom: 50px;
+    }
+    .box {
+      width: 100px;
+      height: 100px;
+      border: 1px solid black;
+      margin-right: 10px;
+      font-size: 20px;
+      text-align: center;
+      padding-top: 30px;
+      background-color: white;
+    }
+    .button-red {
+      background-color: tomato;
+    }
+  </style>
+  <body>
+    <div class="container">
+      <div class="box">1</div>
+      <div class="box">2</div>
+      <div class="box">3</div>
+      <div class="box">4</div>
+      <div class="box">5</div>
+    </div>
+
+    <script>
+      "use strict";
+
+      // 1. Сделайте 5 квадратов и каждый по клику меняет цвет (синий->зеленый->желтый).
+
+      // Последовательность такая:
+      // пустой квадрат
+      // клик
+      // цвет заливки синий
+      // клик
+      // цвет заливки зеленый
+      // клик
+      // цвет заливки желтый
+      // клик
+      // цвет заливки синий
+      // и т. д.
+
+      // * при клике по любому из них, он переставляется в конец
+
+      let arrBoxs = document.querySelectorAll(".box");
+      let parentDiv = document.querySelector(".container");
+
+      console.log(arrBoxs);
+      console.log(parentDiv);
+
+      arrBoxs.forEach(function (box) {
+        box.addEventListener("click", function () {
+          let bgBox = this.style.backgroundColor;
+          console.log(bgBox);
+
+          switch (bgBox) {
+            case "":
+              this.style.backgroundColor = "blue";
+              parentDiv.append(this);
+              break;
+            case "blue":
+              this.style.backgroundColor = "green";
+              parentDiv.append(this);
+              break;
+            case "green":
+              this.style.backgroundColor = "yellow";
+              parentDiv.append(this);
+              break;
+            case "yellow":
+              this.style.backgroundColor = "blue";
+              parentDiv.append(this);
+              break;
+          }
+        });
+      });
+
+      // 2. Напишите функцию, которая тоглит класс. Ф-ия должна принимать два аргумента: элемент и класс, который нужно добавить/убрать из набора классов. Решить нужно без использоваться classList. Ф-ия должна работать со свойством className элемента.
+
+      const btn = document.createElement("button");
+      btn.setAttribute("type", "button");
+      btn.setAttribute("id", "callback");
+      btn.textContent = "Callback";
+      btn.className = "btn btn-primary";
+
+      btn.addEventListener("click", function () {
+        let el = this;
+        let checkClass = "button-red";
+
+        function classToggle(elem, classTogg) {
+          const classes = elem.className.split(" ");
+          const flag = classes.some(function (el) {
+            return el === classTogg;
+          });
+          if (flag) {
+            const classIndex = classes.findIndex(function (el) {
+              return el === classTogg;
+            });
+
+            classes.splice(classIndex, 1);
+          } else {
+            classes.push(classTogg);
+          }
+
+          elem.className = classes.join(" ");
+        }
+
+        classToggle(el, checkClass);
+      });
+
+      document.body.append(btn);
+    </script>
+  </body>
+</html>
