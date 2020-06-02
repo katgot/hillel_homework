@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lesson_13</title>
+  </head>
+  <style>
+    .keyboard {
+      width: 500px;
+      text-align: center;
+    }
+    .result {
+      width: 500px;
+      height: 200px;
+      text-align: center;
+      padding: 20px;
+      margin: 20px 0px;
+      border: 1px solid black;
+    }
+    .delete {
+      margin: 20px 0px;
+    }
+  </style>
+  <body>
+    <div class="container">
+      <div class="result"></div>
+      <button class="delete" type="button">Delete</button>
+    </div>
+
+    <script>
+      "use strict";
+
+      // 1. Есть див для вывода результата. Сделайте таблицу с алфавитом. При клике на букву она должна добавляться в див. Дополнительно можете сделать символ пробела и любые символы, какие захотите. В результате должна быть возможность написать сообщение "Hello World!!!" без использования клавиатуры. Т. е. используя только вашу импровизированную экранную клавиатуру. Так же возле дива должна быть кнопка для очистки поля с текущим результатом.
+
+      let arr_en = [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+        "g",
+        "h",
+        "i",
+        "j",
+        "k",
+        "l",
+        "m",
+        "n",
+        "o",
+        "p",
+        "q",
+        "r",
+        "s",
+        "t",
+        "u",
+        "v",
+        "w",
+        "x",
+        "y",
+        "z",
+      ];
+      let arr_symb = [" ", "!", "@", "#", "$", "%", "&", "?", "-", "+", "="];
+
+      function createKeyboard(alphabet, symbols) {
+        let content = "";
+        let line = "";
+
+        for (let i = 0; i < alphabet.length; i++) {
+          line += `<td>${alphabet[i]}</td>`;
+
+          if (i % 10 === 0 && i !== 0) {
+            content += `<tr>${line}</tr>`;
+            line = "";
+          }
+          if (i === alphabet.length - 1) {
+            content += `<tr>${line}</tr>`;
+            line = "";
+          }
+        }
+
+        for (let i = 0; i < symbols.length; i++) {
+          line += `<td>${symbols[i]}</td>`;
+
+          if (i % 10 === 0 && i !== 0) {
+            content += `<tr>${line}</tr>`;
+            line = "";
+          }
+          if (i === symbols.length - 1) {
+            content += `<tr>${line}</tr>`;
+            line = "";
+          }
+        }
+
+        let table = document.createElement("table");
+        table.border = "1";
+        table.classList.add("keyboard");
+        table.innerHTML = content;
+        let parentDiv = document.querySelector(".container");
+        parentDiv.append(table);
+      }
+
+      createKeyboard(arr_en, arr_symb);
+
+      function writeLetter(letters, res, deleteBtn) {
+        letters.forEach(function (key) {
+          key.addEventListener("click", function () {
+            let text = this.textContent;
+            res.textContent += text;
+          });
+        });
+
+        deleteBtn.addEventListener("click", function () {
+          res.textContent = "";
+        });
+      }
+
+      let table = document.querySelectorAll(".keyboard td");
+      let divRes = document.querySelector(".result");
+      let btnDelete = document.querySelector(".delete");
+
+      writeLetter(table, divRes, btnDelete);
+
+      // 2. Сделайте калькулятор валют. Должны быть след поля:
+
+      // выбрать операцию (продажа, покупка) [radio]
+      // валюта из [select]
+      // валюта в [select]
+      // сумма [input]
+      // поле для вывода результата [input]
+
+      // Валюты для конвертации: USD, EUR, UAH.
+
+      // В квадратных скобках указан тип элемента формы, кот нужно использовать.
+
+      let calculatorForm = `
+                 <form action="">
+                    <p><b>Калькулятор валют</b></p>
+                    <p>Выбрать операцию:<br>
+                      <input type="radio" name="operation" value="sale">продажа<Br>
+                      <input type="radio" name="operation" value="buy">покупка<Br>
+                    </p>
+                    <p>Валюта из:<br>
+                      <select name="currencyOf">
+                        <option value="USD" selected>USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="UAH">UAH</option>
+                      </select>
+                    </p>
+                    <p>Валюта в:<br>
+                      <select name="currencyIn">
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="UAH" selected>UAH</option>
+                      </select>
+                    </p>
+                    <input type="number" name="sum" value=""><Br>
+              
+                    <button type="submit">Получить результат</button><Br>
+
+                    <input type="text" name="result" value=""><Br>
+                  </form>
+                  `;
+      let wrap = document.createElement("div");
+      wrap.classList.add("wrapper");
+      wrap.innerHTML = calculatorForm;
+      document.body.append(wrap);
+
+      const USD = [26.7, 26.94]; // продажа, покупка
+      const EUR = [29.43, 29.94]; // продажа, покупка
+
+      let calculator = document.querySelector("form");
+
+      calculator.addEventListener("submit", function (event) {
+        event.preventDefault();
+      });
+      calculator.addEventListener("submit", function () {
+        let sum = this.sum.value;
+        let res = "";
+        if (this.operation.value === "sale") {
+          if(this.currencyOf.value === this.currencyIn.value){
+            res = sum;
+          }
+          if (this.currencyOf.value === "USD" && this.currencyIn.value === "UAH"){
+            res = USD[0] * sum;
+          }
+          if (this.currencyOf.value === "USD" && this.currencyIn.value === "EUR"){
+            res = USD[0]/EUR[0] * sum;
+          }
+          if (this.currencyOf.value === "UAH" && this.currencyIn.value === "USD"){
+            res = sum/USD[0];
+          }
+          if (this.currencyOf.value === "UAH" && this.currencyIn.value === "EUR"){
+            res = sum/EUR[0];
+          }
+          if (this.currencyOf.value === "EUR" && this.currencyIn.value === "UAH"){
+            res = EUR[0] * sum;
+          }
+          if (this.currencyOf.value === "EUR" && this.currencyIn.value === "USD"){
+            res = EUR[0]/USD[0] * sum;
+          }
+        }
+        if(this.operation.value === "buy"){
+          if(this.currencyOf.value === this.currencyIn.value){
+            res = sum;
+          }
+          if (this.currencyOf.value === "USD" && this.currencyIn.value === "UAH"){
+            res = USD[1] * sum;
+          }
+          if (this.currencyOf.value === "USD" && this.currencyIn.value === "EUR"){
+            res = USD[1]/EUR[1] * sum;
+          }
+          if (this.currencyOf.value === "UAH" && this.currencyIn.value === "USD"){
+            res = sum/USD[1];
+          }
+          if (this.currencyOf.value === "UAH" && this.currencyIn.value === "EUR"){
+            res = sum/EUR[1];
+          }
+          if (this.currencyOf.value === "EUR" && this.currencyIn.value === "UAH"){
+            res = EUR[1] * sum;
+          }
+          if (this.currencyOf.value === "EUR" && this.currencyIn.value === "USD"){
+            res = EUR[1]/USD[1] * sum;
+          }
+        }
+
+        this.result.value = res;
+
+      });
+    </script>
+  </body>
+</html>
