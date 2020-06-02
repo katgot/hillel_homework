@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lesson_15</title>
+  </head>
+  <style>
+    .result {
+      width: 200px;
+      height: 40px;
+      padding: 10px;
+      margin: 20px 0;
+      border: 1px solid black;
+      overflow: scroll;
+      word-wrap: break-word;
+    }
+    .accordeon {
+      margin: 50px 0;
+    }
+    .accordeon h3 {
+      border: 1px solid black;
+      margin: 0;
+    }
+    .accordeon p {
+      display: none;
+    }
+    .accordeon .open {
+      display: block;
+    }
+
+  </style>
+  <body>
+    <div class="accordeon">
+      <h2>Аккордеон:</h2>
+      <h3 class="open">Заголовок 1</h3>
+      <p class="open">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+        illo.
+      </p>
+      <h3>Заголовок 2</h3>
+      <p>Lorem ipsum dolor sit amet.</p>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+      "use strict";
+
+      // 1. Сделайте табличку 3х3. Каждая ячейка должна быть заполнена случайным числом от 1 до 100. По клику на ячейку под таблицей должно выводиться число из ячейки. Все должно быть сделано JS-ом. Для обработки клика используйте делегирование - у вас должен быть один обработчик клика для этой таблицы.
+
+      function createTable(row, col){
+        let content = "";
+
+        function getRandomInt(min, max) {
+          return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+        for (let i = 0; i < row; i++) {
+          let line = "";
+
+          for (let j = 0; j < col; j++) {
+            let random = getRandomInt(1, 100);
+            line += `<td>${random}</td>`;
+          }
+          content += `<tr>${line}</tr>`;
+        }
+
+        let table = document.createElement("table");
+        table.border = "1";
+        table.innerHTML = content;
+        document.body.append(table);
+      }
+
+      createTable(3, 3);
+
+      let divRes = document.createElement("div");
+      divRes.classList.add("result");
+      document.body.append(divRes);
+
+      document.querySelector("table").addEventListener("click", function (e) {
+        divRes.textContent += e.target.textContent;
+      });
+
+      // 2. Используя jQuery сделайте аккордион. Разметка задается заранее в HTML. Функционал аккордиона должен быть реализован на jQuery.
+
+      let accordionP = $('.accordion p');
+      let accordionH3 = $('.accordion h3');
+
+
+      $('.accordeon > h3').click(function() {
+          if($(this).hasClass('open')){
+            $(this).removeClass('open');
+            $(this).next().slideUp("slow");
+          }
+          else{
+            accordionP.slideUp("slow");
+            accordionH3.removeClass('open');
+            $(this).addClass('open');
+            $(this).next().slideDown("slow");
+            return false;
+          }
+      });
+
+
+    </script>
+  </body>
+</html>
