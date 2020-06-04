@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lesson_17</title>
+  </head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .container {
+      display: flex;
+    }
+    .box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100px;
+      height: 100px;
+      margin: 10px;
+      padding: 10px;
+      border: 1px solid grey;
+      font-size: 20px;
+    }
+    button {
+      width: 20px;
+      cursor: pointer;
+    }
+
+    .container2 {
+      display: flex;
+      margin-top: 50px;
+    }
+    .box2 {
+      width: 100px;
+      height: 100px;
+      border: 1px solid black;
+      margin-right: 10px;
+      font-size: 20px;
+      text-align: center;
+      padding-top: 30px;
+      background-color: white;
+    }
+  </style>
+  <body>
+    <div class="container">
+      <div class="box">
+        <button data-plus="plus">+</button>
+        <p data-content="content">0</p>
+        <button data-minus="minus">-</button>
+      </div>
+      <div class="box">
+        <button data-plus="plus">+</button>
+        <p data-content="content">0</p>
+        <button data-minus="minus">-</button>
+      </div>
+      <div class="box">
+        <button data-plus="plus">+</button>
+        <p data-content="content">0</p>
+        <button data-minus="minus">-</button>
+      </div>
+      <div class="box">
+        <button data-plus="plus">+</button>
+        <p data-content="content">0</p>
+        <button data-minus="minus">-</button>
+      </div>
+      <div class="box">
+        <button data-plus="plus">+</button>
+        <p data-content="content">0</p>
+        <button data-minus="minus">-</button>
+      </div>
+      <div class="box">
+        <button data-plus="plus">+</button>
+        <p data-content="content">0</p>
+        <button data-minus="minus">-</button>
+      </div>
+    </div>
+
+    <div class="container2">
+      <div class="box2">1</div>
+      <div class="box2">2</div>
+      <div class="box2">3</div>
+      <div class="box2">4</div>
+      <div class="box2">5</div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+      "use strict";
+
+      //     Переделайте задание:
+      // 1. Квадраты с кнопками +\-
+      // 2. Квадраты с изменением цвета по клику. Менять цвет и передвигать в конец.
+
+      $(".container > .box > button").click(function () {
+        let count = +$(this).parent().children("p").text();
+
+        if ($(this).attr("data-plus")) {
+          count++;
+          $(this).parent().children("p").text(count);
+        }
+        if ($(this).attr("data-minus")) {
+          count--;
+          $(this).parent().children("p").text(count);
+        }
+      });
+
+      // ******************************************************************************************************
+
+      $(".container2 > .box2").click(function () {
+        let bgBox = $(this).css("background-color");
+
+        switch (bgBox) {
+          case "rgb(255, 255, 255)":
+            $(this).css("background-color", "rgb(2, 125, 201)");
+            $(this).parent().append($(this));
+            break;
+          case "rgb(2, 125, 201)":
+            $(this).css("background-color", "rgb(2, 201, 78)");
+            $(this).parent().append($(this));
+            break;
+          case "rgb(2, 201, 78)":
+            $(this).css("background-color", "rgb(201, 185, 2)");
+            $(this).parent().append($(this));
+            break;
+          case "rgb(201, 185, 2)":
+            $(this).css("background-color", "rgb(2, 125, 201)");
+            $(this).parent().append($(this));
+            break;
+        }
+      });
+    </script>
+  </body>
+</html>
