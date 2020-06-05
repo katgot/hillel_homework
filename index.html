@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lesson_18</title>
+  </head>
+  <body>
+    <script>
+      "use strict";
+
+      // Задание : Я хочу, чтоб вы написали свой bind и чтоб было немного веселее, свою реализацию метода массива - map
+
+      // 1. Метод arr.map вызывает функцию для каждого элемента массива и возвращает массив результатов выполнения этой функции.
+
+      let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+      function likeMap(array, cb) {
+        let arrNew = []; // Создает новый массив
+
+        for (let i = 0; i < array.length; i++) {
+          let result = arrToTen.call(array[i], array[i]); // Вызывает функцию для каждого элемента массива
+          arrNew.push(result);
+        }
+
+        return arrNew; // Возвращает массив результатов выполнения этой функции
+      }
+
+      function arrToTen() {
+        return this * 10;
+      }
+
+      console.log(likeMap(arr, arrToTen));
+
+      // 2. Вызов f.bind(someObject) создает новую функцию с тем же телом и областью действия, что и f, но там, где в исходной функции используется this, в новой функции оно постоянно будет связано с первым аргументом bind, независимо от того, как функция используется.
+
+      function likeBind(func, context, arg, arg2) {
+        return func.call(context, arg, arg2);
+      }
+
+      let student = {
+        name: "Kate",
+        age: 25,
+      };
+
+      function sayHello(word, symbol) {
+        return `${word} ${this.name}${symbol}`;
+      }
+
+      console.log(likeBind(sayHello, student, "Hello", "!"));
+    </script>
+  </body>
+</html>
