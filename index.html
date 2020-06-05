@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lesson_19</title>
+  </head>
+  <body>
+    <script>
+      "use strict";
+
+      // 1. Вам нужно, написать функцию, которая принимает 1 параметр. При первом вызове, она его запоминает, при втором — суммирует переданый параметр с тем, что передали первый раз и тд. Всё это с замыканиями, например: sum(3) = 3 sum(5) = 8 sum(20) = 28
+
+      function accumulate(numb) {
+        let acc = 0;
+        return function (numb) {
+          acc = acc + numb;
+          return acc;
+        };
+      }
+
+      let getSum = accumulate();
+
+      console.log(getSum(5));
+      console.log(getSum(2));
+      console.log(getSum(10));
+
+      // 2. Это не все. Возьмите счетчик, который мы писали в классе и добавьте ему возможность задавать начальное значение и шаг счетчика и отчистку.
+
+      function createCounter(start) {
+        let currentCount = start;
+
+        return function (step, flag) {
+          if (flag === undefined) {
+            currentCount = currentCount + step;
+            return currentCount;
+          }
+          if (flag === "clean") {
+            // очистка
+            currentCount = 0;
+            return currentCount;
+          }
+        };
+      }
+
+      let counter = createCounter(3); // возможность задавать начальное значение
+
+      console.log(counter(2)); // возможность задавать шаг счетчика
+      console.log(counter(5));
+      console.log(counter(7, "clean")); // возможность задавать очистку
+      console.log(counter(3));
+      console.log(counter(5));
+
+      // 3. Рекурсия. Поработаем с числовым палиндромом) Числовой палиндром — это натуральное число, которое читается слева направо и справа налево одинаково. Иначе говоря, отличается симметрией записи (расположения цифр), причём число знаков может быть как чётным, так и нечётным.
+      // Но!
+      // Палиндром можно получить как результат операций над другими числами. Возьмём любое натуральное число и сложим его с обращённым числом, то есть записанным теми же цифрами, но в обратном порядке. Проделаем то же действие с получившейся суммой и будем повторять его до тех пор, пока не образуется палиндром. Иногда достаточно сделать всего один шаг (например, 312 + 213 = 525), но, как правило, требуется не менее двух. Скажем, число 96 порождает палиндром 4884 только на четвёртом шаге....
+
+      function getPalindrome(numb) {
+        console.log(`numb: ${numb}`);
+        let str = "" + numb;
+        let arr = str.split("");
+        arr.reverse();
+        let mirror = +arr.join("");
+        console.log(`mirror: ${mirror}`);
+        if (numb === mirror) {
+          return `Палиндром - ${numb}`;
+        }
+        return getPalindrome(numb + mirror);
+      }
+
+      console.log(getPalindrome(252));
+      console.log(getPalindrome(56));
+    </script>
+  </body>
+</html>
