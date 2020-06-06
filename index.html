@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lesson_21</title>
+  </head>
+  <body>
+    <div class="container">
+      <ul class="list"></ul>
+    </div>
+
+    <script>
+      "use strict";
+
+      //    В одной далекой-далекой галактике...
+      // // Вам нужно вывести на экран все фильмы, а по нажатию на название - получать и показывать под названием фильма - корабли, которые там встречались
+      // // https://swapi.dev
+
+      function getFilms() {
+        return fetch("https://swapi.dev/api/films", {
+          method: "GET",
+        });
+      }
+
+      function getSWShips(url) {
+        return fetch(url, {
+          method: "GET",
+        });
+      }
+
+      getFilms()
+        .then(function (response) {
+          return response.json(); // возвращает Promise поэтому делаю еще раз then
+        })
+        .then(function (data) {
+          let list = document.querySelector(".list");
+
+          console.log(data.results);
+          data.results.forEach(function (film) {
+            // перебираю массив объектов (фильмов)
+            let li = document.createElement("li");
+            li.dataset.dateUrl = film.url; // устанавливаю дата аттрибут в виде строки с url (буду использовать для поиска короблей)
+            li.innerHTML = film.title; // вывожу в li название фильма
+            list.append(li);
+          });
+
+          document.querySelectorAll("li").forEach(function (el) {
+            el.addEventListener("click", function () {
+              // собираю все li в массив и навешиваю обработчик-клик
+              let urlFilm = el.dataset.dateUrl;
+              let list2 = document.createElement("ul");
+
+              function wrapper(url) {
+                getSWShips(url)
+                  .then(function (response) {
+                    return response.json();
+                  })
+                  .then(function (data) {
+                    data.results.forEach(function (ship) {
+                      if (ship.films.includes(urlFilm)) {
+                        // проверка наличия фильма, по которому кликнули, в массиве фильмов каждого корабля
+                        let li = document.createElement("li");
+                        li.innerHTML = ship.name; // вывожу в li название корабля
+                        list2.append(li);
+                      }
+                    });
+                    el.append(list2);
+
+                    if (data.next !== null) {
+                      // проверка наличия следующей страницы с кораблями (по 10 шт)
+                      return wrapper(data.next); // если есть, запускаю функцию снова уже с новым url
+                    }
+                  });
+              }
+
+              wrapper("https://swapi.dev/api/starships");
+            });
+          });
+        });
+    </script>
+  </body>
+</html>
