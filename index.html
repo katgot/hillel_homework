@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lesson_23</title>
+  </head>
+  <body>
+    <script>
+      "use strict";
+
+      // Каждый экземпляр должен иметь:
+
+      // Свойства имя, фамилия, год рождения.
+      // Свойство, содержащее массив с оценками.
+      // Свойство массив с записями о посещаемости студента. В нем должно быть 25 пустых элементов. Должен быть метод .present() и .abent(), при каждом вызове которых на очередное пустое место записывается true или false. Предусмотреть защиту, чтобы в массив нельзя было добавить больше 25 записей.
+      // Методы:
+      // для получения среднего балла студента
+      // для получения возраста студента
+      // .summary() - он проверяет среднюю оценку, и среднее посещение(количество Посещений/количество Занятий), и если средняя оценка больше 90 а среднее посещение больше 0.9, то метод summary, возвращает строку "Ути какой молодчинка!", если одно из этих значений меньше, то — "Норм, но можно лучше", если оба ниже — "Редиска!"
+
+      // Создать несколько экземпляров и подергать методы.
+
+      function Student(firstName, lastName, birthYear) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthYear = birthYear;
+        this.rating = [];
+        this.ratingAll = 0;
+        this.attendance = new Array(25);
+      }
+
+      Student.prototype.present = function () {
+        // Метод студент посетил занятие
+        if (this.ratingAll < 25) {
+          this.attendance.shift();
+          this.attendance.push(true);
+          this.ratingAll++;
+        }
+      };
+      Student.prototype.abent = function () {
+        // Метод студент не посетил занятие
+        if (this.ratingAll < 25) {
+          this.attendance.shift();
+          this.attendance.push(false);
+          this.ratingAll++;
+        }
+      };
+      Student.prototype.setRating = function () {
+        // Метод для выставления массива оценок
+        let str = Array.prototype.join.call(arguments);
+        this.rating = str.split(",");
+      };
+
+      Student.prototype.getAge = function () {
+        // Метод для получения возраста студента
+        let today = new Date().getFullYear();
+        return `Возраст: ${today - this.birthYear}`;
+      };
+
+      Student.prototype.getAverageMark = function () {
+        // Метод для получения средней оценки
+        let count = 0;
+        let acc = 0;
+        for (let i = 0; i < this.rating.length; i++) {
+          acc += +this.rating[i];
+          count++;
+        }
+        return acc / count;
+      };
+
+      Student.prototype.getAverageAttendance = function () {
+        // Метод для получения средней посещаемости
+        let count = 0;
+        this.attendance.forEach(function (item) {
+          if (item === true) {
+            count++;
+          }
+        });
+        return count / 25;
+      };
+
+      Student.prototype.summary = function (arg1, arg2) {
+        if (arg1 > 9 && arg2 > 0.9) {
+          return console.log("Ути какой молодчинка!");
+        }
+        if (arg1 > 9 || arg2 > 0.9) {
+          return console.log("Норм, но можно лучше");
+        } else {
+          return console.log("Редиска!");
+        }
+      };
+
+      let student1 = new Student("Anna", "Petrova", 1995);
+      let student2 = new Student("Olga", "Ivanova", 1998);
+
+      student1.present();
+      student1.present();
+      student1.present();
+      student1.present();
+      student1.abent();
+      student1.abent();
+      student1.setRating(10, 10, 10, 10, 5, 5, 10, 10, 10, 10, 10, 10);
+      console.log(student1);
+      console.log(student1.getAge());
+      console.log(student1.getAverageMark());
+      console.log(student1.getAverageAttendance());
+      console.log(
+        student1.summary(
+          student1.getAverageMark(),
+          student1.getAverageAttendance()
+        )
+      );
+
+      student2.present();
+      student2.present();
+      student2.present();
+      student2.abent();
+      student2.abent();
+      student2.setRating(10, 0, 10, 5, 5, 10, 10, 5, 10, 10, 10);
+      console.log(student2);
+      console.log(student2.getAge());
+      console.log(student2.getAverageMark());
+      console.log(student2.getAverageAttendance());
+      console.log(
+        student2.summary(
+          student2.getAverageMark(),
+          student2.getAverageAttendance()
+        )
+      );
+    </script>
+  </body>
+</html>
