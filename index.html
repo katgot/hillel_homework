@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lesson_25</title>
+  </head>
+  <style>
+    .container {
+      margin: 0px 20px;
+    }
+    .taskStyle {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px 0;
+      padding: 5px;
+      background-color: rgb(160, 148, 148);
+      color: white;
+    }
+    .taskStyle p {
+      width: 200px;
+      display: inline-block;
+    }
+    .crossedOut {
+      text-decoration: line-through;
+    }
+  </style>
+  <body>
+    <div class="container">
+      <form action="">
+        <input name="inputTask" type="text" />
+        <button type="submit">+</button>
+      </form>
+      <h4>TO DO LIST:</h4>
+      <div class="tasks"></div>
+    </div>
+
+    <script>
+      "use strict";
+
+      // ToDo List:
+      // Поле для ввода задачи.
+      // Кнопка добавить задачу в список.
+      // У одной задачи должны быть две кнопки:
+      // Отметить задачу как выполненную (текст задачи должен зачеркиваться)
+      // Удалить задачу (задача именно удаляется из списка, а не скрывается)
+
+      if (localStorage.tasks) {                               // Добавляю данные из localStorage на страницу, если они есть
+        printTasks(JSON.parse(localStorage.tasks));
+      }
+
+      let form = document.querySelector("form");
+
+      form.addEventListener("submit", function (e) {                  // Функция для добавления задачи в ToDo List из input
+        e.preventDefault();
+        let list = localStorage.tasks ? JSON.parse(localStorage.tasks) : [];
+        let task = e.target.elements.inputTask.value;
+
+        list.push({
+          id: Date.now(),
+          value: task,
+          done: false,
+        });
+
+        localStorage.tasks = JSON.stringify(list);
+        printTasks(list);    // вызываю функцию для выведения задач на страницу из localStorage
+        e.target.reset();
+      });
+
+      function printTasks(list) {   // Функция для выведения задач на страницу из localStorage
+        let strList = "";
+
+        list.forEach((task) => {
+          if (task.done === true) {       // если задача выполнена добавляется класс и текст выводится зачеркнутый
+            let li = document;
+            strList += `<div class="taskStyle"><p class="crossedOut">${task.value}</p>     
+                  <div>
+                  <button data-id="${task.id}" data-name="done" type="submit">+</button>
+                  <button data-id="${task.id}" data-name="delete" type="submit">X</button>
+                  </div>
+                  </div>`;
+          }
+          if (task.done === false) {     // если задача НЕ выполнена
+            let li = document;
+            strList += `<div class="taskStyle"><p>${task.value}</p> 
+                  <div>
+                  <button data-id="${task.id}" data-name="done" type="submit">+</button>
+                  <button data-id="${task.id}" data-name="delete" type="submit">X</button>
+                  </div>
+                  </div>`;
+          }
+        });
+        document.querySelector(".tasks").innerHTML = strList;
+      }
+
+      let tasks = document.querySelector(".tasks");
+
+      tasks.addEventListener("click", function (e) {      // Обработка кликов на кнопках задачи
+        let idTask = +e.target.dataset.id;
+
+        let localTasks = localStorage.tasks
+          ? JSON.parse(localStorage.tasks)
+          : [];
+
+        localTasks.forEach(function (item) {
+          if(e.target.dataset.name === "done"){      // проверка - это кнопка "изменить"?
+            if (item.id === idTask) {       // нахожу в localStorage задачу с таким же id, как я установила в дата-id кнопки, и дальше меняю статус сделано/не сделано
+            switch (item.done) {
+              case false:
+                item.done = true;
+                break;
+              case true:
+                item.done = false;
+                break;
+            }
+          }
+          }
+          if(e.target.dataset.name === "delete"){     // проверка - это кнопка "удалить"?
+            if (item.id === idTask) {   // нахожу в localStorage задачу с таким же id, как я установила в дата-id кнопки, и удаляю ее
+              localTasks.splice(localTasks.indexOf(item), 1);
+          }
+          }
+          
+        });
+        localStorage.tasks = JSON.stringify(localTasks);
+        printTasks(JSON.parse(localStorage.tasks));    // перерисовываю ToDo List на странице после изменений
+      });
+    </script>
+  </body>
+</html>
