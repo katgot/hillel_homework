@@ -21,35 +21,40 @@
 
       let getSum = accumulate();
 
-      console.log(getSum(5));
-      console.log(getSum(2));
-      console.log(getSum(10));
+      // console.log(getSum(5));
+      // console.log(getSum(2));
+      // console.log(getSum(10));
 
       // 2. Это не все. Возьмите счетчик, который мы писали в классе и добавьте ему возможность задавать начальное значение и шаг счетчика и отчистку.
 
-      function createCounter(start) {
-        let currentCount = start;
+      function createCounter(startValue, step) {
+        let acc = startValue;
 
-        return function (step, flag) {
-          if (flag === undefined) {
-            currentCount = currentCount + step;
-            return currentCount;
-          }
-          if (flag === "clean") {
-            // очистка
-            currentCount = 0;
-            return currentCount;
-          }
+        function counter() {
+          return (acc += step);
+        }
+
+        counter.reset = function () {
+          acc = startValue;
+          return acc;
         };
+
+        return counter;
       }
 
-      let counter = createCounter(3); // возможность задавать начальное значение
+      let counter1 = createCounter(3, 10);
+      let counter2 = createCounter(0, 2);
 
-      console.log(counter(2)); // возможность задавать шаг счетчика
-      console.log(counter(5));
-      console.log(counter(7, "clean")); // возможность задавать очистку
-      console.log(counter(3));
-      console.log(counter(5));
+      console.log(counter1());
+      console.log(counter1());
+      console.log(counter1());
+
+      console.log(counter1.reset(), "reset");
+      console.log(counter1());
+      console.log(counter1());
+
+      console.log(counter2());
+      console.log(counter2());
 
       // 3. Рекурсия. Поработаем с числовым палиндромом) Числовой палиндром — это натуральное число, которое читается слева направо и справа налево одинаково. Иначе говоря, отличается симметрией записи (расположения цифр), причём число знаков может быть как чётным, так и нечётным.
       // Но!
