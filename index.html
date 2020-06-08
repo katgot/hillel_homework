@@ -15,27 +15,42 @@
 
       let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-      function likeMap(array, cb) {
-        let arrNew = []; // Создает новый массив
+      const map = function (array, cb, thisArg) {
+        let res = [];
 
         for (let i = 0; i < array.length; i++) {
-          let result = arrToTen.call(array[i], array[i]); // Вызывает функцию для каждого элемента массива
-          arrNew.push(result);
+          res.push(cb.call(thisArg || array[i], array[i], i, array));
         }
+        return res;
+      };
 
-        return arrNew; // Возвращает массив результатов выполнения этой функции
-      }
+      const arrToTen = map(
+        arr,
+        function (el, i) {
+          return {
+            index: i,
+            value: el * 10,
+          };
+        },
+        {}
+      );
 
-      function arrToTen() {
-        return this * 10;
-      }
-
-      console.log(likeMap(arr, arrToTen));
+      console.log(arrToTen);
 
       // 2. Вызов f.bind(someObject) создает новую функцию с тем же телом и областью действия, что и f, но там, где в исходной функции используется this, в новой функции оно постоянно будет связано с первым аргументом bind, независимо от того, как функция используется.
 
-      function likeBind(func, context, arg, arg2) {
-        return func.call(context, arg, arg2);
+      const bind = function (fn, thisContext) {
+        let argsCount = 2;
+        let restArgs = Array.prototype.slice.call(arguments, argsCount);
+
+        return function () {
+          let fnArgs = Array.prototype.slice.call(arguments);
+          return fn.apply(thisContext, restArgs.concat(fnArgs));
+        };
+      };
+
+      function sayHello(words) {
+        return `${words} ${this.name}`;
       }
 
       let student = {
@@ -43,11 +58,9 @@
         age: 25,
       };
 
-      function sayHello(word, symbol) {
-        return `${word} ${this.name}${symbol}`;
-      }
+      let foo = bind(sayHello, student, "Hello,");
 
-      console.log(likeBind(sayHello, student, "Hello", "!"));
+      console.log(foo());
     </script>
   </body>
 </html>
