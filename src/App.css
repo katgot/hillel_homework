@@ -1,0 +1,22 @@
+.App {
+  text-align: center;
+}
+
+#root{
+  margin: 30px;
+}
+
+.ui.primary.button{
+  margin: 10px 20px;
+}
+.ui.input{
+  margin: 10px;
+}
+.ui .checkbox{
+  margin: 20px 10px;
+
+}
+.swiper-container {
+  max-width: 900px;
+  max-height: 500px;
+}
